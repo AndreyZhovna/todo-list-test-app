@@ -1,3 +1,8 @@
 To run the application:
 
-```./vendor/bin/sail up```
+```
+cd todo-list-test-app
+composer install
+cp .env.example .env
+./vendor/bin/sail up
+```
