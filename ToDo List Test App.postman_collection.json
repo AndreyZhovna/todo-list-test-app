@@ -1,0 +1,461 @@
+{
+	"info": {
+		"_postman_id": "f41318e9-c89e-467c-82a6-a7183c7b85e1",
+		"name": "ToDo List Test App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5455706"
+	},
+	"item": [
+		{
+			"name": "Tasks",
+			"item": [
+				{
+					"name": "Get Tasks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{local}}/v1/tasks",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"v1",
+								"tasks"
+							],
+							"query": [
+								{
+									"key": "filter[priority_from]",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "filter[priority_to]",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "filter[status]",
+									"value": "todo",
+									"description": "todo|done",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "-priority",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "created_at",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "completed_at",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Task",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.expect(pm.response.code).to.be.within(200, 299)) {",
+									"    pm.collectionVariables.set('task_id', pm.response.json().data.id)",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "title",
+									"value": "123",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Test",
+									"type": "text"
+								},
+								{
+									"key": "parent_id",
+									"value": "9971ae81-569b-4cca-9369-c15e9c517038",
+									"type": "text"
+								},
+								{
+									"key": "priority",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}/v1/tasks/create",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"v1",
+								"tasks",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Task",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "title",
+									"value": "123",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Test",
+									"type": "text"
+								},
+								{
+									"key": "parent_id",
+									"value": "9971ae81-569b-4cca-9369-c15e9c517038",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "priority",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "todo",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}/v1/tasks/:task_id/update",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"v1",
+								"tasks",
+								":task_id",
+								"update"
+							],
+							"variable": [
+								{
+									"key": "task_id",
+									"value": "{{task_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mark Task As Completed",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{local}}/v1/tasks/:task_id/complete",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"v1",
+								"tasks",
+								":task_id",
+								"complete"
+							],
+							"variable": [
+								{
+									"key": "task_id",
+									"value": "{{task_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Task",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{local}}/v1/tasks/:task_id/delete",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"v1",
+								"tasks",
+								":task_id",
+								"delete"
+							],
+							"variable": [
+								{
+									"key": "task_id",
+									"value": "{{task_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    pm.collectionVariables.set('token', pm.response.json().data.token)",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "test@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}/v1/auth/login",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    pm.collectionVariables.set('token', pm.response.json().data.token)",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "TestUser",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "test@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}/v1/auth/register",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"v1",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "local",
+			"value": "http://127.0.0.1/api",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "3|rsE71HdG7mO7odQ3apdfKpFJSxVxoiqcwVUinVzG",
+			"type": "string"
+		},
+		{
+			"key": "task_id",
+			"value": "9971ae81-569b-4cca-9369-c15e9c517038"
+		}
+	]
+}
